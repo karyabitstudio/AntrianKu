@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AntrianKu Demo Interaktif</title>
+  <meta name="description" content="Coba sistem antrian online — ambil nomor, panggil, display TV. Demo frontend tanpa backend." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    [data-view].hidden { display: none !important; }
+    .num { font-variant-numeric: tabular-nums; letter-spacing: 0.05em; }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen">
+
+  <!-- TOP BAR -->
+  <header class="bg-slate-900 text-white sticky top-0 z-40">
+    <div class="max-w-5xl mx-auto px-3 min-h-12 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 py-2">
+      <button type="button" data-go="home" class="inline-flex shrink-0 items-center gap-1.5 font-bold text-sm sm:text-base" aria-label="AntrianKu Demo, beranda"><svg aria-hidden="true" viewBox="0 0 40 40" class="w-7 h-7 text-indigo-300" fill="none"><rect x="5" y="5" width="30" height="30" rx="9" fill="currentColor"/><path d="M14 14h12M14 20h12M14 26h7" stroke="#312e81" stroke-width="2.5" stroke-linecap="round"/><circle cx="27" cy="26" r="2" fill="#312e81"/></svg><span>Antrian<span class="text-indigo-400">Ku</span> <span class="text-slate-500 font-normal text-xs">Demo</span></span></button>
+      <nav class="flex w-full sm:w-auto items-center gap-1 text-xs sm:text-sm overflow-x-auto whitespace-nowrap">
+        <a href="../index.html" class="px-2 py-1 rounded bg-indigo-500/20 text-indigo-200 hover:bg-indigo-500/30 whitespace-nowrap">Beranda</a>
+        <button type="button" data-go="ambil" class="px-2 py-1 rounded hover:bg-white/10 whitespace-nowrap">Ambil Nomor</button>
+        <button type="button" data-go="operator" class="px-2 py-1 rounded hover:bg-white/10 whitespace-nowrap">Operator</button>
+        <button type="button" data-go="display" class="px-2 py-1 rounded hover:bg-white/10 whitespace-nowrap">Display TV</button>
+        <button type="button" data-go="tablet" class="px-2 py-1 rounded hover:bg-white/10 whitespace-nowrap">Tablet</button>
+        <button type="button" id="btn-reset" class="px-2 py-1 rounded text-rose-300 hover:bg-rose-500/20 whitespace-nowrap">Reset</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-3 py-4 pb-16">
+
+    <!-- HOME -->
+    <section data-view="home">
+      <div class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-2xl p-6 sm:p-8 mb-4">
+        <p class="text-indigo-300 text-xs font-medium uppercase tracking-wide">Demo interaktif · tanpa login server</p>
+        <h1 class="text-2xl sm:text-3xl font-bold mt-2">Coba alur antrian end-to-end</h1>
+        <p class="text-slate-300 text-sm mt-2 max-w-xl">Data tersimpan di browser Anda (localStorage). Cocok untuk demo ke klien. Refresh tidak menghapus data — pakai tombol Reset.</p>
+        <div class="grid sm:grid-cols-2 gap-3 mt-6">
+          <button type="button" data-go="ambil" class="bg-indigo-500 hover:bg-indigo-400 text-left rounded-xl p-4 transition">
+            <span class="font-semibold block">1. Ambil Nomor</span>
+            <span class="text-xs text-indigo-100">Seperti pelanggan scan QR</span>
+          </button>
+          <button type="button" data-go="operator" class="bg-white/10 hover:bg-white/15 text-left rounded-xl p-4 transition">
+            <span class="font-semibold block">2. Operator</span>
+            <span class="text-xs text-slate-300">Panggil · layani · selesai</span>
+          </button>
+          <button type="button" data-go="display" class="bg-white/10 hover:bg-white/15 text-left rounded-xl p-4 transition">
+            <span class="font-semibold block">3. Display TV</span>
+            <span class="text-xs text-slate-300">Nomor dipanggil + suara</span>
+          </button>
+          <button type="button" data-go="tablet" class="bg-white/10 hover:bg-white/15 text-left rounded-xl p-4 transition">
+            <span class="font-semibold block">4. Tablet Loket</span>
+            <span class="text-xs text-slate-300">Self-service UI besar</span>
+          </button>
+        </div>
+      </div>
+      <div class="grid grid-cols-3 gap-3 text-center">
+        <div class="bg-white rounded-xl p-3 shadow-sm"><p class="text-2xl font-bold text-orange-500" id="stat-waiting">0</p><p class="text-xs text-slate-500">Menunggu</p></div>
+        <div class="bg-white rounded-xl p-3 shadow-sm"><p class="text-2xl font-bold text-blue-500" id="stat-called">0</p><p class="text-xs text-slate-500">Dipanggil</p></div>
+        <div class="bg-white rounded-xl p-3 shadow-sm"><p class="text-2xl font-bold text-green-500" id="stat-finished">0</p><p class="text-xs text-slate-500">Selesai hari ini</p></div>
+      </div>
+      <p class="text-center text-xs text-slate-400 mt-6">Demo portfolio · <a href="https://karyabit-studio.vercel.app" class="text-indigo-500 hover:underline" target="_blank" rel="noopener">KaryaBit Studio</a></p>
+    </section>
+
+    <!-- AMBIL NOMOR -->
+    <section data-view="ambil" class="hidden">
+      <p class="text-xs text-indigo-700 bg-indigo-50 border border-indigo-100 rounded-xl px-4 py-3 mb-4"><strong>Catatan demo:</strong> isi data bebas saja, tidak harus data asli. Formulir ini hanya simulasi.</p>
+      <h2 class="text-xl font-bold mb-1">Ambil Nomor Antrian</h2>
+      <p class="text-sm text-slate-500 mb-4">Klinik Sehat Sentosa (demo)</p>
+      <div id="service-list" class="grid sm:grid-cols-2 gap-3"></div>
+      <div id="take-form" class="hidden mt-4 bg-white rounded-2xl shadow p-5 max-w-3xl mx-auto">
+        <h3 class="font-semibold" id="take-service-name">—</h3>
+        <p class="text-xs text-slate-500 mb-4" id="take-waiting-hint"></p>
+        <label class="block text-sm mb-1">Nama (opsional)</label>
+        <input id="inp-name" type="text" class="w-full border rounded-lg px-3 py-2 mb-3 text-sm" placeholder="Nama Anda" />
+        <label class="block text-sm mb-1">WhatsApp (opsional)</label>
+        <input id="inp-phone" type="text" class="w-full border rounded-lg px-3 py-2 mb-3 text-sm" placeholder="08xxxxxxxxxx" />
+        <h4 class="text-sm font-semibold border-b border-slate-100 pb-2 mb-3">Informasi pasien</h4>
+        <div class="grid sm:grid-cols-2 gap-x-3">
+          <div><label for="inp-nik" class="block text-sm mb-1">NIK</label><input id="inp-nik" inputmode="numeric" maxlength="16" class="w-full border rounded-lg px-3 py-2 mb-3 text-sm" placeholder="16 digit NIK" /></div>
+          <div><label for="inp-birth" class="block text-sm mb-1">Tanggal lahir</label><input id="inp-birth" type="date" class="w-full border rounded-lg px-3 py-2 mb-3 text-sm" /></div>
+          <div><label for="inp-gender" class="block text-sm mb-1">Jenis kelamin</label><select id="inp-gender" class="w-full border rounded-lg px-3 py-2 mb-3 text-sm bg-white"><option value="">Pilih jenis kelamin</option><option>Laki-laki</option><option>Perempuan</option></select></div>
+          <div><label for="inp-payer" class="block text-sm mb-1">Penjamin / cara bayar</label><select id="inp-payer" class="w-full border rounded-lg px-3 py-2 mb-3 text-sm bg-white"><option value="">Pilih penjamin</option><option>BPJS Kesehatan</option><option>Umum / mandiri</option><option>Asuransi lainnya</option></select></div>
+          <div><label for="inp-bpjs" class="block text-sm mb-1">Nomor kartu BPJS</label><input id="inp-bpjs" class="w-full border rounded-lg px-3 py-2 mb-3 text-sm" placeholder="Nomor kartu BPJS" /></div>
+          <div><label for="inp-visit" class="block text-sm mb-1">Jenis kunjungan</label><select id="inp-visit" class="w-full border rounded-lg px-3 py-2 mb-3 text-sm bg-white"><option value="">Pilih jenis kunjungan</option><option>Berobat</option><option>Kontrol</option><option>Konsultasi</option></select></div>
+        </div>
+        <label for="inp-address" class="block text-sm mb-1">Alamat domisili</label>
+        <textarea id="inp-address" rows="2" class="w-full border rounded-lg px-3 py-2 mb-3 text-sm" placeholder="Alamat lengkap pasien"></textarea>
+        <label for="inp-reason" class="block text-sm mb-1">Keluhan utama (opsional)</label>
+        <textarea id="inp-reason" rows="2" class="w-full border rounded-lg px-3 py-2 mb-3 text-sm" placeholder="Tuliskan keluhan secara singkat"></textarea>
+        <label class="flex items-start gap-2 p-3 bg-amber-50 rounded-xl mb-4 cursor-pointer text-sm">
+          <input id="inp-priority" type="checkbox" class="mt-0.5" />
+          <span><strong>Prioritas</strong> — lansia / difabel / ibu hamil</span>
+        </label>
+        <label class="flex items-start gap-2 p-3 bg-slate-50 border border-slate-200 rounded-xl mb-4 cursor-pointer text-xs"><input id="inp-consent" type="checkbox" class="mt-0.5" /><span>Saya menyatakan data ini diisi untuk simulasi pendaftaran demo.</span></label>
+        <button type="button" id="btn-take" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 rounded-xl">Daftar dan ambil nomor antrian</button>
+        <button type="button" id="btn-take-cancel" class="w-full mt-2 text-sm text-slate-500">Batal</button>
+      </div>
+      <div id="ticket-card" class="hidden mt-4 max-w-md mx-auto"></div>
+    </section>
+
+    <!-- OPERATOR -->
+    <section data-view="operator" class="hidden">
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+        <div>
+          <h2 class="text-xl font-bold">Dashboard Operator</h2>
+          <p class="text-sm text-slate-500">Klinik Sehat Sentosa</p>
+        </div>
+        <button type="button" data-go="display" class="text-sm bg-slate-800 text-white px-3 py-1.5 rounded-lg">Buka Display ↗</button>
+      </div>
+      <div class="grid lg:grid-cols-3 gap-3">
+        <div class="bg-white rounded-xl shadow p-3">
+          <h3 class="font-semibold text-orange-600 text-sm mb-2 flex justify-between">Menunggu <span id="op-wait-count" class="bg-orange-100 text-orange-700 text-xs px-2 rounded-full">0</span></h3>
+          <div id="op-waiting" class="space-y-2 max-h-80 overflow-y-auto"></div>
+        </div>
+        <div class="bg-white rounded-xl shadow p-3">
+          <h3 class="font-semibold text-blue-600 text-sm mb-2 flex justify-between">Dipanggil <span id="op-call-count" class="bg-blue-100 text-blue-700 text-xs px-2 rounded-full">0</span></h3>
+          <div id="op-called" class="space-y-2 max-h-80 overflow-y-auto"></div>
+        </div>
+        <div class="bg-white rounded-xl shadow p-3">
+          <h3 class="font-semibold text-indigo-600 text-sm mb-2 flex justify-between">Dilayani <span id="op-serve-count" class="bg-indigo-100 text-indigo-700 text-xs px-2 rounded-full">0</span></h3>
+          <div id="op-serving" class="space-y-2 max-h-80 overflow-y-auto"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DISPLAY -->
+    <section data-view="display" class="hidden">
+      <div id="display-root" class="rounded-2xl bg-slate-900 text-white p-6 min-h-[70vh]">
+        <div class="text-center mb-6">
+          <h2 class="text-xl font-bold text-indigo-300">Klinik Sehat Sentosa</h2>
+          <p class="text-slate-400 text-sm" id="display-clock"></p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div>
+            <h3 class="text-indigo-400 font-semibold mb-3">Sedang Dipanggil</h3>
+            <div id="display-called" class="space-y-4"></div>
+          </div>
+          <div>
+            <h3 class="text-orange-400 font-semibold mb-3">Antrian Berikutnya</h3>
+            <div id="display-next" class="grid grid-cols-2 sm:grid-cols-3 gap-2"></div>
+          </div>
+        </div>
+        <p class="text-center text-slate-500 text-xs mt-8">Suara TTS aktif · refresh otomatis</p>
+      </div>
+    </section>
+
+    <!-- TABLET -->
+    <section data-view="tablet" class="hidden">
+      <div class="bg-slate-900 text-white rounded-2xl p-6 min-h-[60vh]">
+        <div class="text-center mb-8">
+          <p class="text-indigo-300 text-xs uppercase tracking-widest">Self Service</p>
+          <h2 class="text-2xl font-bold mt-1">Klinik Sehat Sentosa</h2>
+          <p class="text-slate-400 text-sm mt-1">Pilih layanan — satu ketuk</p>
+        </div>
+        <div id="tablet-services" class="grid sm:grid-cols-2 gap-3 max-w-2xl mx-auto"></div>
+        <div id="tablet-ticket" class="hidden max-w-sm mx-auto mt-8 text-center"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="toast" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-sm px-4 py-2 rounded-lg shadow-lg opacity-0 pointer-events-none transition-opacity z-50"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
