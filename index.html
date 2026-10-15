@@ -6,6 +6,9 @@
   <title>AntrianKu — Sistem Antrian Online untuk Klinik, Service Center & UMKM</title>
   <meta name="description" content="Sistem antrian digital multi-lokasi. Pelanggan ambil nomor via QR/HP, petugas panggil dari dashboard, TV display + WhatsApp otomatis. Demo portfolio KaryaBit Studio." />
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script>
     tailwind.config = {
       theme: {
@@ -19,45 +22,47 @@
   </script>
   <style>
     html { scroll-behavior: smooth; }
-    .gradient-hero { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%); }
-    .mock-glow { box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.35); }
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .gradient-hero { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 40%, #2563eb 70%, #0891b2 100%); }
+    .mock-glow { box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.24); }
+    .card-hover { transition: all .3s cubic-bezier(.4,0,.2,1); }
+    .card-hover:hover { transform: translateY(-5px); box-shadow: 0 25px 50px -12px rgba(37,99,235,.16); }
+    @media (max-width: 639px) { html { font-size: 15px; } }
+    .mock-glow .text-slate-400 { color: #64748b; }
+    .mock-glow .bg-white\/5 { background-color: #f8fafc; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased">
 
   <!-- NAV -->
-  <nav class="fixed top-0 inset-x-0 z-50 bg-slate-950/80 backdrop-blur border-b border-white/5">
-    <div class="max-w-6xl mx-auto px-4 min-h-14 flex flex-wrap items-center justify-between py-2 gap-y-2">
-      <a href="#" class="flex items-center gap-2 font-bold text-white text-lg tracking-tight" aria-label="AntrianKu beranda"><svg aria-hidden="true" viewBox="0 0 40 40" class="w-8 h-8 text-indigo-300" fill="none"><rect x="5" y="5" width="30" height="30" rx="9" fill="currentColor"/><path d="M14 14h12M14 20h12M14 26h7" stroke="#312e81" stroke-width="2.5" stroke-linecap="round"/><circle cx="27" cy="26" r="2" fill="#312e81"/></svg><span>Antrian<span class="text-indigo-400">Ku</span></span></a>
-      <div class="hidden md:flex items-center gap-6 text-sm text-slate-300">
-        <a href="#fitur" class="hover:text-white">Fitur</a>
-        <a href="#cara-kerja" class="hover:text-white">Cara Kerja</a>
-        <a href="#bisnis" class="hover:text-white">Cocok Untuk</a>
-        <a href="#harga" class="hover:text-white">Harga</a>
-        <a href="#kontak" class="bg-indigo-500 hover:bg-indigo-400 text-white px-4 py-1.5 rounded-lg font-medium transition">Konsultasi</a>
+  <nav class="bg-white/95 backdrop-blur-lg sticky top-0 z-50 border-b border-slate-200/80">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="#" class="flex items-center gap-2.5 font-extrabold text-xl tracking-tight text-slate-900" aria-label="AntrianKu beranda"><svg aria-hidden="true" viewBox="0 0 40 40" class="w-9 h-9 text-blue-600 drop-shadow" fill="none"><rect x="5" y="5" width="30" height="30" rx="9" fill="currentColor"/><path d="M14 14h12M14 20h12M14 26h7" stroke="white" stroke-width="2.5" stroke-linecap="round"/><circle cx="27" cy="26" r="2" fill="white"/></svg><span>Antrian<span class="text-cyan-600">Ku</span></span></a>
+        <div class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+          <a href="#fitur" class="hover:text-blue-600 transition">Fitur</a><a href="#cara-kerja" class="hover:text-blue-600 transition">Cara Kerja</a><a href="#bisnis" class="hover:text-blue-600 transition">Cocok Untuk</a><a href="#harga" class="hover:text-blue-600 transition">Harga</a>
+          <a href="./demo/" class="bg-blue-600 text-white px-5 py-2.5 rounded-xl hover:bg-blue-700 transition shadow-md shadow-blue-600/25 font-semibold">Coba Demo</a>
+        </div>
+        <button id="menu-btn" type="button" aria-label="Buka menu" aria-expanded="false" class="md:hidden w-10 h-10 flex items-center justify-center text-slate-600 text-xl rounded-lg hover:bg-slate-100"><span aria-hidden="true">☰</span></button>
       </div>
-      <div class="md:hidden flex w-full items-center gap-4 overflow-x-auto whitespace-nowrap text-xs text-slate-300 pb-1">
-        <a href="#fitur" class="hover:text-white">Fitur</a>
-        <a href="#cara-kerja" class="hover:text-white">Cara Kerja</a>
-        <a href="#bisnis" class="hover:text-white">Cocok Untuk</a>
-        <a href="#harga" class="hover:text-white">Harga</a>
-        <a href="./demo/" class="text-indigo-300 hover:text-white">Coba Demo</a>
-        <a href="#kontak" class="text-indigo-300 hover:text-white">Kontak</a>
-      </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 bg-white px-4 py-4 space-y-1">
+      <a href="#fitur" class="block py-2.5 px-3 rounded-lg hover:bg-slate-50">Fitur</a><a href="#cara-kerja" class="block py-2.5 px-3 rounded-lg hover:bg-slate-50">Cara Kerja</a><a href="#bisnis" class="block py-2.5 px-3 rounded-lg hover:bg-slate-50">Cocok Untuk</a><a href="#harga" class="block py-2.5 px-3 rounded-lg hover:bg-slate-50">Harga</a><a href="#kontak" class="block py-2.5 px-3 rounded-lg hover:bg-slate-50">Kontak</a>
+      <a href="./demo/" class="block mt-2 bg-blue-600 text-white text-center py-3 rounded-xl font-semibold">Coba Demo Interaktif</a>
     </div>
   </nav>
 
   <!-- HERO -->
-  <header class="gradient-hero pt-24 pb-16 md:pt-32 md:pb-24 text-white overflow-hidden relative">
-    <div class="absolute inset-0 opacity-30" style="background-image:radial-gradient(circle at 20% 50%,#6366f1 0%,transparent 50%),radial-gradient(circle at 80% 20%,#818cf8 0%,transparent 40%)"></div>
+  <header class="gradient-hero py-20 md:py-28 text-white overflow-hidden relative">
+    <div class="absolute inset-0 opacity-30" style="background-image:radial-gradient(circle at 20% 50%,#3b82f6 0%,transparent 50%),radial-gradient(circle at 80% 20%,#22d3ee 0%,transparent 40%)"></div>
     <div class="max-w-6xl mx-auto px-4 relative grid lg:grid-cols-2 gap-12 items-center">
       <div>
-        <p class="inline-flex items-center gap-2 text-xs font-medium bg-white/10 border border-white/10 rounded-full px-3 py-1 text-indigo-200 mb-5">
+        <p class="inline-flex items-center gap-2 text-xs font-medium bg-white/10 border border-white/10 rounded-full px-3 py-1 text-blue-200 mb-5">
           Contoh sistem antrian online untuk bisnis
         </p>
         <h1 class="text-4xl md:text-5xl font-bold leading-tight tracking-tight">
           Antrian Rapi.<br />
-          <span class="text-indigo-300">Tanpa Ribet.</span>
+          <span class="text-blue-300">Tanpa Ribet.</span>
         </h1>
         <p class="mt-5 text-slate-300 text-lg leading-relaxed max-w-lg">
           Pelanggan ambil nomor sendiri lewat HP atau QR. Petugas panggil dari dashboard.
@@ -71,14 +76,14 @@
           <span class="bg-white/10 border border-white/10 rounded-full px-3 py-1">Laporan Real-time</span>
         </div>
         <div class="mt-8 flex flex-wrap gap-3">
-          <a href="#kontak" class="bg-indigo-500 hover:bg-indigo-400 text-white font-semibold px-6 py-3 rounded-xl transition">Konsultasi Gratis</a>
+          <a href="#kontak" class="bg-blue-500 hover:bg-blue-400 text-white font-semibold px-6 py-3 rounded-xl transition">Konsultasi Gratis</a>
           <a href="./demo/" class="bg-white/10 hover:bg-white/15 border border-white/15 text-white font-medium px-6 py-3 rounded-xl transition">Coba Demo Interaktif</a>
           <a href="#cara-kerja" class="bg-white/10 hover:bg-white/15 border border-white/15 text-white font-medium px-6 py-3 rounded-xl transition">Lihat Cara Kerja</a>
         </div>
       </div>
 
       <!-- Mock dashboard card -->
-      <div class="mock-glow bg-slate-900/80 border border-white/10 rounded-2xl p-5 backdrop-blur">
+      <div class="mock-glow bg-white rounded-3xl p-5 md:p-6 text-slate-800">
         <div class="flex items-center justify-between mb-4">
           <div>
             <p class="text-xs text-slate-400">Hari Ini · Klinik Sehat Sentosa</p>
@@ -86,7 +91,7 @@
           </div>
           <div class="text-right">
             <p class="text-xs text-slate-400">Rata tunggu</p>
-            <p class="text-lg font-semibold text-indigo-300">12 mnt</p>
+            <p class="text-lg font-semibold text-blue-300">12 mnt</p>
           </div>
         </div>
         <div class="space-y-2">
@@ -117,7 +122,7 @@
         </div>
         <div class="mt-4 grid grid-cols-3 gap-2 text-center text-xs">
           <div class="bg-white/5 rounded-lg py-2"><p class="text-slate-400">Menunggu</p><p class="text-lg font-bold text-orange-300">8</p></div>
-          <div class="bg-white/5 rounded-lg py-2"><p class="text-slate-400">Dilayani</p><p class="text-lg font-bold text-indigo-300">3</p></div>
+          <div class="bg-white/5 rounded-lg py-2"><p class="text-slate-400">Dilayani</p><p class="text-lg font-bold text-blue-300">3</p></div>
           <div class="bg-white/5 rounded-lg py-2"><p class="text-slate-400">Selesai</p><p class="text-lg font-bold text-green-300">31</p></div>
         </div>
       </div>
@@ -127,17 +132,17 @@
   <!-- STATS STRIP -->
   <section class="bg-white border-b border-slate-100">
     <div class="max-w-6xl mx-auto px-4 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-      <div><p class="text-2xl font-bold text-indigo-600">QR / HP</p><p class="text-sm text-slate-500 mt-1">Ambil nomor sendiri</p></div>
-      <div><p class="text-2xl font-bold text-indigo-600">-60%</p><p class="text-sm text-slate-500 mt-1">Antrian berantakan*</p></div>
-      <div><p class="text-2xl font-bold text-indigo-600">Multi</p><p class="text-sm text-slate-500 mt-1">Cabang & loket</p></div>
-      <div><p class="text-2xl font-bold text-indigo-600">Real-time</p><p class="text-sm text-slate-500 mt-1">TV + WhatsApp</p></div>
+      <div><p class="text-2xl font-bold text-blue-600">QR / HP</p><p class="text-sm text-slate-500 mt-1">Ambil nomor sendiri</p></div>
+      <div><p class="text-2xl font-bold text-blue-600">-60%</p><p class="text-sm text-slate-500 mt-1">Antrian berantakan*</p></div>
+      <div><p class="text-2xl font-bold text-blue-600">Multi</p><p class="text-sm text-slate-500 mt-1">Cabang & loket</p></div>
+      <div><p class="text-2xl font-bold text-blue-600">Real-time</p><p class="text-sm text-slate-500 mt-1">TV + WhatsApp</p></div>
     </div>
     <p class="text-center text-[11px] text-slate-400 pb-4">*Ilustrasi manfaat operasional, bukan klaim statistik baku</p>
   </section>
 
   <!-- APA ITU -->
   <section class="max-w-6xl mx-auto px-4 py-16 md:py-20">
-    <p class="text-xs font-semibold tracking-widest text-indigo-600 uppercase mb-3">Penjelasan singkat</p>
+    <p class="text-xs font-semibold tracking-widest text-blue-600 uppercase mb-3">Penjelasan singkat</p>
     <h2 class="text-3xl font-bold text-slate-900 mb-4">AntrianKu itu apa?</h2>
     <div class="max-w-3xl text-slate-600 leading-relaxed space-y-4">
       <p>
@@ -149,7 +154,7 @@
         Tidak perlu lagi teriak nomor, kertas antrian hilang, atau pelanggan bolak-balik nanya
         “saya nomor berapa?”. Semua terlihat di HP, TV, dan notifikasi WhatsApp.
       </p>
-      <p class="text-sm bg-indigo-50 border border-indigo-100 rounded-xl p-4 text-indigo-900">
+      <p class="text-sm bg-blue-50 border border-blue-100 rounded-xl p-4 text-blue-900">
         <strong>Ini adalah demo / contoh portfolio.</strong>
         Dibuat oleh <a href="https://karyabit-studio.vercel.app" class="underline font-medium" target="_blank" rel="noopener">KaryaBit Studio</a>
         sebagai contoh sistem antrian yang bisa dibuatkan untuk bisnis Anda — bukan produk SaaS yang dijual langganan.
@@ -160,53 +165,53 @@
   <!-- FITUR -->
   <section id="fitur" class="bg-white py-16 md:py-20 border-y border-slate-100">
     <div class="max-w-6xl mx-auto px-4">
-      <p class="text-xs font-semibold tracking-widest text-indigo-600 uppercase mb-3">Fitur lengkap</p>
+      <p class="text-xs font-semibold tracking-widest text-blue-600 uppercase mb-3">Fitur lengkap</p>
       <h2 class="text-3xl font-bold text-slate-900 mb-3">Semua yang dibutuhkan operasional antrian</h2>
       <p class="text-slate-500 mb-10 max-w-2xl">Dari ambil nomor sampai laporan — satu sistem menangani alur antrian harian.</p>
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        <article class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:border-indigo-200 transition">
-          <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold mb-3">1</div>
+        <article class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:border-blue-200 card-hover">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold mb-3">1</div>
           <h3 class="font-semibold text-slate-900">Ambil Nomor Online</h3>
           <p class="text-sm text-slate-500 mt-2">Via QR, HP, atau tablet self-service di loket. Pilih layanan, dapat nomor instan.</p>
         </article>
-        <article class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:border-indigo-200 transition">
-          <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold mb-3">2</div>
+        <article class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:border-blue-200 card-hover">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold mb-3">2</div>
           <h3 class="font-semibold text-slate-900">Dashboard Operator</h3>
           <p class="text-sm text-slate-500 mt-2">Panggil, layani, selesai, atau lewati. Pilih loket. Prioritas lansia/difabel didahulukan.</p>
         </article>
-        <article class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:border-indigo-200 transition">
-          <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold mb-3">3</div>
+        <article class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:border-blue-200 card-hover">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold mb-3">3</div>
           <h3 class="font-semibold text-slate-900">Display TV + Suara</h3>
           <p class="text-sm text-slate-500 mt-2">Layar ruang tunggu auto-refresh. Text-to-speech memanggil nomor ke loket.</p>
         </article>
-        <article class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:border-indigo-200 transition">
-          <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold mb-3">4</div>
+        <article class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:border-blue-200 card-hover">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold mb-3">4</div>
           <h3 class="font-semibold text-slate-900">Notifikasi WhatsApp</h3>
           <p class="text-sm text-slate-500 mt-2">Pemberitahuan saat hampir giliran dan saat nomor dipanggil (Fonnte/Wablas).</p>
         </article>
-        <article class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:border-indigo-200 transition">
-          <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold mb-3">5</div>
+        <article class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:border-blue-200 card-hover">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold mb-3">5</div>
           <h3 class="font-semibold text-slate-900">Multi Cabang & Loket</h3>
           <p class="text-sm text-slate-500 mt-2">Kelola beberapa lokasi dan loket. Super admin bisa switch cabang cepat.</p>
         </article>
-        <article class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:border-indigo-200 transition">
-          <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold mb-3">6</div>
+        <article class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:border-blue-200 card-hover">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold mb-3">6</div>
           <h3 class="font-semibold text-slate-900">Laporan & Analytics</h3>
           <p class="text-sm text-slate-500 mt-2">Chart per jam, completion rate, peak hour, performa loket. Export CSV/PDF.</p>
         </article>
-        <article class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:border-indigo-200 transition">
-          <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold mb-3">7</div>
+        <article class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:border-blue-200 card-hover">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold mb-3">7</div>
           <h3 class="font-semibold text-slate-900">Status Real-time</h3>
           <p class="text-sm text-slate-500 mt-2">Pelanggan buka link tiket /status/A015 — posisi & estimasi update otomatis.</p>
         </article>
-        <article class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:border-indigo-200 transition">
-          <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold mb-3">8</div>
+        <article class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:border-blue-200 card-hover">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold mb-3">8</div>
           <h3 class="font-semibold text-slate-900">Tablet Self-Service</h3>
           <p class="text-sm text-slate-500 mt-2">UI besar di meja loket: satu tombol Ambil Nomor, cocok tanpa staff bantuan.</p>
         </article>
-        <article class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:border-indigo-200 transition">
-          <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold mb-3">9</div>
+        <article class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:border-blue-200 card-hover">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold mb-3">9</div>
           <h3 class="font-semibold text-slate-900">Cetak Tiket & QR</h3>
           <p class="text-sm text-slate-500 mt-2">Tiket thermal 80mm + poster QR per lokasi/layanan siap dicetak.</p>
         </article>
@@ -216,28 +221,28 @@
 
   <!-- CARA KERJA -->
   <section id="cara-kerja" class="max-w-6xl mx-auto px-4 py-16 md:py-20">
-    <p class="text-xs font-semibold tracking-widest text-indigo-600 uppercase mb-3">Alur sistem</p>
+    <p class="text-xs font-semibold tracking-widest text-blue-600 uppercase mb-3">Alur sistem</p>
     <h2 class="text-3xl font-bold text-slate-900 mb-3">Cara Kerja AntrianKu</h2>
     <p class="text-slate-500 mb-10 max-w-2xl">Dari pelanggan datang sampai laporan admin — semuanya terhubung.</p>
 
     <div class="grid md:grid-cols-4 gap-6">
       <div class="relative">
-        <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold text-lg mb-4">1</div>
+        <div class="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-bold text-lg mb-4">1</div>
         <h3 class="font-semibold text-slate-900">Pelanggan Ambil Nomor</h3>
         <p class="text-sm text-slate-500 mt-2">Scan QR / buka link / tablet → pilih layanan → dapat nomor & estimasi tunggu.</p>
       </div>
       <div class="relative">
-        <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold text-lg mb-4">2</div>
+        <div class="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-bold text-lg mb-4">2</div>
         <h3 class="font-semibold text-slate-900">Menunggu + Notifikasi</h3>
         <p class="text-sm text-slate-500 mt-2">Status live di HP. WhatsApp memberitahu saat hampir giliran dan saat dipanggil.</p>
       </div>
       <div class="relative">
-        <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold text-lg mb-4">3</div>
+        <div class="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-bold text-lg mb-4">3</div>
         <h3 class="font-semibold text-slate-900">Petugas Panggil</h3>
         <p class="text-sm text-slate-500 mt-2">Dashboard operator: panggil ke loket → TV + suara → layani → selesai.</p>
       </div>
       <div class="relative">
-        <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold text-lg mb-4">4</div>
+        <div class="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-bold text-lg mb-4">4</div>
         <h3 class="font-semibold text-slate-900">Laporan & Analisis</h3>
         <p class="text-sm text-slate-500 mt-2">Pantau volume harian, peak hour, rata tunggu, dan performa tiap loket.</p>
       </div>
@@ -247,7 +252,7 @@
   <!-- BISNIS -->
   <section id="bisnis" class="bg-slate-900 text-white py-16 md:py-20">
     <div class="max-w-6xl mx-auto px-4">
-      <p class="text-xs font-semibold tracking-widest text-indigo-300 uppercase mb-3">Cocok untuk</p>
+      <p class="text-xs font-semibold tracking-widest text-blue-300 uppercase mb-3">Cocok untuk</p>
       <h2 class="text-3xl font-bold mb-3">Satu sistem, banyak jenis usaha</h2>
       <p class="text-slate-400 mb-10 max-w-2xl">Di mana pun orang mengantri — AntrianKu bisa membantu merapikan alurnya.</p>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
@@ -269,7 +274,7 @@
 
   <!-- HARGA -->
   <section id="harga" class="max-w-6xl mx-auto px-4 py-16 md:py-20">
-    <p class="text-xs font-semibold tracking-widest text-indigo-600 uppercase mb-3">Harga</p>
+    <p class="text-xs font-semibold tracking-widest text-blue-600 uppercase mb-3">Harga</p>
     <h2 class="text-3xl font-bold text-slate-900 mb-3">Harga terjangkau untuk UMKM</h2>
     <p class="text-slate-500 mb-10 max-w-2xl">Sekali bayar, sistem bisa dipakai. Harga final menyesuaikan kebutuhan bisnis Anda.</p>
 
@@ -279,27 +284,27 @@
         <p class="text-3xl font-bold mt-2">Rp 1,5jt</p>
         <p class="text-xs text-slate-400 mt-1">sekali bayar</p>
         <ul class="mt-6 space-y-2 text-sm text-slate-600 flex-1">
-          <li class="flex gap-2"><span class="text-indigo-500">✓</span> Ambil nomor online + QR</li>
-          <li class="flex gap-2"><span class="text-indigo-500">✓</span> Dashboard operator</li>
-          <li class="flex gap-2"><span class="text-indigo-500">✓</span> Display TV sederhana</li>
-          <li class="flex gap-2"><span class="text-indigo-500">✓</span> 1 lokasi</li>
-          <li class="flex gap-2"><span class="text-indigo-500">✓</span> Bantuan 14 hari</li>
+          <li class="flex gap-2"><span class="text-blue-500">✓</span> Ambil nomor online + QR</li>
+          <li class="flex gap-2"><span class="text-blue-500">✓</span> Dashboard operator</li>
+          <li class="flex gap-2"><span class="text-blue-500">✓</span> Display TV sederhana</li>
+          <li class="flex gap-2"><span class="text-blue-500">✓</span> 1 lokasi</li>
+          <li class="flex gap-2"><span class="text-blue-500">✓</span> Bantuan 14 hari</li>
         </ul>
-        <a href="#kontak" class="mt-6 block text-center border border-slate-200 hover:border-indigo-300 rounded-xl py-2.5 font-medium text-sm transition">Pilih Basic</a>
+        <a href="#kontak" class="mt-6 block text-center border border-slate-200 hover:border-blue-300 rounded-xl py-2.5 font-medium text-sm transition">Pilih Basic</a>
       </div>
 
-      <div class="bg-indigo-600 text-white rounded-2xl p-6 flex flex-col relative shadow-xl shadow-indigo-200">
-        <p class="text-sm font-medium text-indigo-200">Standard</p>
+      <div class="bg-blue-600 text-white rounded-2xl p-6 flex flex-col relative shadow-xl shadow-blue-200">
+        <p class="text-sm font-medium text-blue-200">Standard</p>
         <p class="text-3xl font-bold mt-2">Rp 2,5jt</p>
-        <p class="text-xs text-indigo-200 mt-1">sekali bayar</p>
-        <ul class="mt-6 space-y-2 text-sm text-indigo-50 flex-1">
+        <p class="text-xs text-blue-200 mt-1">sekali bayar</p>
+        <ul class="mt-6 space-y-2 text-sm text-blue-50 flex-1">
           <li class="flex gap-2"><span>✓</span> Semua fitur Basic</li>
           <li class="flex gap-2"><span>✓</span> WhatsApp otomatis</li>
           <li class="flex gap-2"><span>✓</span> Suara TTS di display</li>
           <li class="flex gap-2"><span>✓</span> Laporan + export</li>
           <li class="flex gap-2"><span>✓</span> Bantuan 30 hari</li>
         </ul>
-        <a href="#kontak" class="mt-6 block text-center bg-white text-indigo-700 hover:bg-indigo-50 rounded-xl py-2.5 font-semibold text-sm transition">Pilih Standard</a>
+        <a href="#kontak" class="mt-6 block text-center bg-white text-blue-700 hover:bg-blue-50 rounded-xl py-2.5 font-semibold text-sm transition">Pilih Standard</a>
       </div>
 
       <div class="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col">
@@ -307,13 +312,13 @@
         <p class="text-3xl font-bold mt-2">Rp 4jt</p>
         <p class="text-xs text-slate-400 mt-1">sekali bayar</p>
         <ul class="mt-6 space-y-2 text-sm text-slate-600 flex-1">
-          <li class="flex gap-2"><span class="text-indigo-500">✓</span> Semua fitur Standard</li>
-          <li class="flex gap-2"><span class="text-indigo-500">✓</span> Multi cabang</li>
-          <li class="flex gap-2"><span class="text-indigo-500">✓</span> Tablet self-service</li>
-          <li class="flex gap-2"><span class="text-indigo-500">✓</span> Custom sesuai kebutuhan</li>
-          <li class="flex gap-2"><span class="text-indigo-500">✓</span> Bantuan 60 hari + training</li>
+          <li class="flex gap-2"><span class="text-blue-500">✓</span> Semua fitur Standard</li>
+          <li class="flex gap-2"><span class="text-blue-500">✓</span> Multi cabang</li>
+          <li class="flex gap-2"><span class="text-blue-500">✓</span> Tablet self-service</li>
+          <li class="flex gap-2"><span class="text-blue-500">✓</span> Custom sesuai kebutuhan</li>
+          <li class="flex gap-2"><span class="text-blue-500">✓</span> Bantuan 60 hari + training</li>
         </ul>
-        <a href="#kontak" class="mt-6 block text-center border border-slate-200 hover:border-indigo-300 rounded-xl py-2.5 font-medium text-sm transition">Pilih Premium</a>
+        <a href="#kontak" class="mt-6 block text-center border border-slate-200 hover:border-blue-300 rounded-xl py-2.5 font-medium text-sm transition">Pilih Premium</a>
       </div>
     </div>
     <p class="text-center text-xs text-slate-400 mt-8">Harga di atas untuk contoh. Harga final menyesuaikan fitur & skala bisnis Anda.</p>
@@ -329,7 +334,7 @@
       </p>
       <div class="mt-8 flex flex-wrap justify-center gap-3">
         <a href="https://karyabit-studio.vercel.app" target="_blank" rel="noopener"
-           class="bg-indigo-500 hover:bg-indigo-400 text-white font-semibold px-6 py-3 rounded-xl transition">
+           class="bg-blue-500 hover:bg-blue-400 text-white font-semibold px-6 py-3 rounded-xl transition">
           Hubungi KaryaBit Studio
         </a>
         <a href="https://karyabit-studio.vercel.app/portfolio.html" target="_blank" rel="noopener"
@@ -347,6 +352,21 @@
   <footer class="bg-slate-950 text-slate-500 text-center text-xs py-6">
     &copy; <span id="y"></span> AntrianKu Demo · <a href="https://karyabit-studio.vercel.app" class="text-slate-400 hover:text-white">KaryaBit Studio</a>
   </footer>
-  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+    const menuButton = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuButton.addEventListener('click', () => {
+      const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!isOpen));
+      mobileMenu.classList.toggle('hidden', isOpen);
+    });
+    mobileMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      menuButton.setAttribute('aria-expanded', 'false');
+    }));
+  </script>
 </body>
 </html>
+
+
